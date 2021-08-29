@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store_Management</title>
+    <link rel="stylesheet" href="./bootstrap-5.1.0-dist/css/bootstrap.min.css">
+    <script src="./bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('background.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .Product_info {
+            width: 60%;
+            margin: 30px auto;
+            border: solid #4267b2 1px;
+        }
+
+        .Heading_info {
+            background-color: #4267b2;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .Body_info {
+            padding: 10px;
+            background-color: white;
+        }
+
+        .button-group {
+            text-align: right;
+        }
+
+        .Show-Product {
+            width: 90%;
+            margin: 30px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="Product_info">
+        <div class="Heading_info">
+            <h3>Phú's Storage</h3>
+        </div>
+        <div class="Body_info">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Product Name</span>
+                <input type="text" class="form-control" id="Product_Name">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Manufacturer</span>
+                <!-- <select class="form-select" aria-label="Default select example">
+                    <option selected>Already Have</option>
+                    <option value="1">Apple</option>
+                    <option value="2">Samsung</option>
+                    <option value="3">Oppo</option>
+                </select> -->
+
+                <input type="text" class="form-control" id="Product_Manufacturer">
+                <!-- dòng select có sẵn tại các sản phẩm  -->
+
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Type</span>
+                <input type="text" class="form-control" id="Product_Type">
+
+                <!-- tương tự manufacturer, Type sẽ hiện nhưng loại sản phẩm có sẵn -->
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Price</span>
+                <input type="number" class="form-control" id="Product_Price">
+                <span class="input-group-text">$</span>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Quantity</span>
+                <input type="number" class="form-control" id="Product_Quantity">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text">Total Price</span>
+                <input type="number" class="form-control" id="Product_Total_Price" disabled='true'>
+                <span class="input-group-text">$</span>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-outline-success" id="btn_add" style='display: initial'
+                    onclick="addItem()">ADD</button>
+                <button type="button" class="btn btn-outline-success" id="btn_update" style='display: none'
+                    onclick="updateItem()">UPDATE</button>
+                <button type="button" class="btn btn-outline-warning" id="btn_reset" style='display: none'
+                    onclick="resetItem()">RESET</button>
+                <button type="button" class="btn btn-outline-secondary" id="btn_cancel" style='display: initial'
+                    onclick="cancelItem()">CANCEL</button>
+                <button type="button" class="btn btn-outline-primary" id="btn_find" style='display: initial'
+                    onclick="">FIND</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="Show-Product">
+        <h3>All Product</h3>
+        <div id="Table-Product">
+            <table id="Table_Product" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total-Price</th>
+                        <th scope="col"><span id="countItem" class="text-danger"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+
+        class Item {
+            constructor(name, manufacturer, type, price, quantity) {
+                this.name = name;
+                this.manufacturer = manufacturer;
+                this.type = type;
+                this.price = price;
+                this.quantity = quantity;
+            }
+            Total_Price(price, quantity) {
+                let total = this.price * this.quantity;
+                return total;
+            }
+        }
+
+        let Product = [];
+
+        function addItem() {
+            let pro_name = document.getElementById('Product_Name').value;
+            let pro_manufacturer = document.getElementById('Product_Manufacturer').value;
+            let pro_type = document.getElementById('Product_Type').value;
+            let pro_price = document.getElementById('Product_Price').value;
+            let pro_quantity = document.getElementById('Product_Quantity').value;
+
+            if (pro_name != '') {
+                if (pro_manufacturer != '') {
+                    if (pro_type != '') {
+                        if (pro_price != '') {
+                            if (pro_quantity != '') {
+                                let item = new Item(pro_name, pro_manufacturer, pro_type, pro_price, pro_quantity);
+                                Product.push(item);
+                                displayItems();
+                                document.getElementById('Product_Name').value = '';
+                                document.getElementById('Product_Manufacturer').value = '';
+                                document.getElementById('Product_Type').value = '';
+                                document.getElementById('Product_Price').value = '';
+                                document.getElementById('Product_Quantity').value = '';
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function cancelItem() {
+            document.getElementById('Product_Name').value = '';
+            document.getElementById('Product_Manufacturer').value = '';
+            document.getElementById('Product_Type').value = '';
+            document.getElementById('Product_Price').value = '';
+            document.getElementById('Product_Quantity').value = '';
+            document.getElementById('btn_add').style.display = 'initial';
+            document.getElementById('btn_update').style.display = 'none';
+            document.getElementById('btn_reset').style.display = 'none';
+            document.getElementById('btn_cancel').style.display = 'initial';
+            document.getElementById('btn_find').style.display = 'initial';
+        }
+
+        displayItems();
+        function displayItems() {
+            let text = '';
+            for (i = 0; i < Product.length; i++) {
+                text += '<tr>';
+                text += '<th scope="row">' + (i + 1) + '</th>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].name + '</span></td>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].manufacturer + '</span></td>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].type + '</span></td>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].price + '</span></td>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].quantity + '</span></td>';
+                text += '<td id="td' + (i) + '"><span id="span' + (i) + '">' + Product[i].Total_Price() + '</span></td>';
+                text += '<td id="tdEdit' + (i) + '">' + "<button id='btnEdit" + i + "' type='button' class='btn btn-outline-success' onclick='editItem(" + i + ");'>Edit</button>" + '</td>';
+                text += '<td>' + "<button id='btnDel" + i + " type='button' class='btn btn-outline-danger'' onclick='deleteItem(" + i + ")'>Delete</button>" + '</td>';
+                text += '</tr>';
+            }
+            document.getElementById('countItem').innerHTML = Product.length + " product";
+            if (Product.length > 1) {
+                document.getElementById('countItem').innerHTML += "s";
+            }
+            document.getElementById("tbody").innerHTML = text;
+        }
+
+        function editItem(tdid) {
+            // khi bấm nút edit thì màn hình sẽ focus lên khung nhập thông tin sản phẩm
+            document.getElementById('btn_add').style.display = 'none';
+            document.getElementById('btn_update').style.display = 'initial';
+                document.getElementById('btn_reset').style.display = 'initial';
+            document.getElementById('btn_cancel').style.display = 'initial';
+            document.getElementById('btn_find').style.display = 'none';
+
+            document.getElementById('Product_Name').value = Product[tdid].name;
+            document.getElementById('Product_Manufacturer').value = Product[tdid].manufacturer;
+            document.getElementById('Product_Type').value = Product[tdid].type;
+            document.getElementById('Product_Price').value = Product[tdid].price;
+            document.getElementById('Product_Quantity').value = Product[tdid].quantity;
+
+            function updateItem(tdid) {
+                // không nhận dạng được hàm trong này
+                Product[tdid].name = document.getElementById('Product_Name').value;
+                Product[tdid].manufacturer = document.getElementById('Product_Manufacturer').value;
+                Product[tdid].type = document.getElementById('Product_Type').value;
+                Product[tdid].price = document.getElementById('Product_Price').value;
+                Product[tdid].quantity = document.getElementById('Product_Quantity').value;
+
+                document.getElementById('Product_Name').value = '';
+                document.getElementById('Product_Manufacturer').value = '';
+                document.getElementById('Product_Type').value = '';
+                document.getElementById('Product_Price').value = '';
+                document.getElementById('Product_Quantity').value = '';
+
+                document.getElementById('btn_add').style.display = 'initial';
+                document.getElementById('btn_update').style.display = 'none';
+                document.getElementById('btn_reset').style.display = 'none';
+                document.getElementById('btn_cancel').style.display = 'initial';
+                document.getElementById('btn_find').style.display = 'initial';
+            }
+
+        }
+
+        function resetItem() {
+            document.getElementById('Product_Name').value = '';
+            document.getElementById('Product_Manufacturer').value = '';
+            document.getElementById('Product_Type').value = '';
+            document.getElementById('Product_Price').value = '';
+            document.getElementById('Product_Quantity').value = '';
+        }
+
+        function deleteItem(i) {
+            var conf = confirm("Are you sure you want to delete \"" + Product[i].name + "\" product?");
+            if (conf) {
+                Product.splice(i, 1);
+                displayItems();
+            }
+        }
+    </script>
+</body>
+
+</html>
