@@ -1,12 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Seaching_Item</title>
+    <link rel="stylesheet" href="./bootstrap-5.1.0-dist/css/bootstrap.min.css">
+    <script src="./bootstrap-5.1.0-dist/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-image: url('Background2.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: large;
+        }
+
+        .Heading {
+            background-color: #4267b2;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .Show-Product {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        #Table-Product {
+            background-color: white;
+        }
+
+        .title {
+            background-color: rgb(147, 217, 238);
+            width: 25%;
+            text-align: center;
+        }
+
+        .Back_home {
+            position: absolute;
+            left: 1200px;
+            top: 95px;
+        }
+
+        .finding_form {
+            position: relative;
+            width: 20%;
+            float: left;
+        }
+
+        #Table-Product {
+            position: relative;
+            width: 78%;
+            float: right;
+        }
+
+        .btn-find {
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div class="Heading">
+        <h1> Phú's Storage</h1>
+    </div>
+    <div class="Back_home"><button type="button" class="btn btn-primary" id="btn_Home"
+            onclick="location.href='Home.html'">HOME</button></div>
+    <div class="Show-Product">
+        <h3 class="title"> Products On Demand:</h3>
+        <div class="finding_form">
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="Check_Manufacturer">
+                </div>
+                <select class="form-control" id="Find_Manufacturer">
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="Check_Type">
+                </div>
+                <select class="form-control" id="Find_Type">
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="Check_Price">
+                </div>
+                <select class="form-control" id="Find_Price">
+                    <option value="case1">Less than 5$</option>
+                    <option value="case2"> more than 5$, less than 10$ </option>
+                    <option value="case3">more than 10$ </option>
+                </select>
+            </div>
+            <div class="btn-find">
+                <button type="button" class="btn btn-warning" id="btn_find" onclick="findItems()">FIND</button>
+            </div>
+        </div>
+        <div id="Table-Product">
+            <table id="Table_Product" class="table table-striped" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product Name</th>
+                        <th scope="col">Manufacturer</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Product Code</th>
+                        <th scope="col"><span id="countItem" class="text-danger"></span></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <script src="Find.js"></script>
 </body>
 </html>

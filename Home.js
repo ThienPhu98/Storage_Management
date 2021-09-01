@@ -1,11 +1,13 @@
+let id = 0;
 class Item {
-    constructor(name, manufacturer, type, price, quantity, code) {
+    constructor(name, manufacturer, type, price, quantity, code, id) {
         this.name = name;
         this.manufacturer = manufacturer;
         this.type = type;
         this.price = price;
         this.quantity = quantity;
         this.code = code;
+        this.id = id++;
     }
 }
 
@@ -25,20 +27,18 @@ function addItem() {
                 if (pro_price != '') {
                     if (pro_quantity != '') {
                         if (pro_code != '') {
-                            let newItem = new Item(pro_name, pro_manufacturer, pro_type, pro_price, pro_quantity, pro_code);
+                            let newItem = new Item(pro_name, pro_manufacturer, pro_type, pro_price, pro_quantity, pro_code, id);
 
 
                             lsProductList = JSON.parse(localStorage.getItem("product_list"));
-
-                            console.log(lsProductList)
 
                             let existProduct = false;
 
                             if (lsProductList != null) {
                                 lsProductList.forEach(item => {
                                     if (item.code == pro_code) {
-                                        console.log(item.code)
-                                        item.quantity += pro_quantity;
+                                        let lsItemQuantity = parseInt(item.quantity)
+                                        item.quantity = lsItemQuantity + parseInt(pro_quantity);
                                         existProduct = true;
                                     }
                                 });
@@ -61,7 +61,6 @@ function addItem() {
                             document.getElementById('Product_Quantity').value = '';
                             document.getElementById('Product_Code').value = '';
                         }
-
                     }
                 }
             }
@@ -114,6 +113,7 @@ function displayItems() {
 }
 
 function editItem(index) {
+    console.log('edit:' + index);
     let lsProductList = JSON.parse(localStorage.getItem("product_list"));
 
     document.getElementById("Product_Name").focus();
@@ -131,44 +131,35 @@ function editItem(index) {
     document.getElementById('Product_Quantity').value = lsProductList[index].quantity;
     document.getElementById('Product_Code').value = lsProductList[index].code;
 
-    document.getElementById("btn_update").addEventListener('click', function () {
-        lsProductList[index].name = document.getElementById('Product_Name').value;
-        lsProductList[index].manufacturer = document.getElementById('Product_Manufacturer').value;
-        lsProductList[index].type = document.getElementById('Product_Type').value;
-        lsProductList[index].price = document.getElementById('Product_Price').value;
-        lsProductList[index].quantity = document.getElementById('Product_Quantity').value;
+    document.getElementById('btn_update').value = index
 
-        localStorage.setItem("product_list", JSON.stringify(lsProductList));
+}
 
-        document.getElementById('Product_Name').value = '';
-        document.getElementById('Product_Manufacturer').value = '';
-        document.getElementById('Product_Type').value = '';
-        document.getElementById('Product_Price').value = '';
-        document.getElementById('Product_Quantity').value = '';
-        document.getElementById('Product_Code').value = '';
+function updateItem(id) {
+    let lsProductList = JSON.parse(localStorage.getItem("product_list"));
+    console.log(id);
+    lsProductList[id].name = document.getElementById('Product_Name').value;
+    lsProductList[id].manufacturer = document.getElementById('Product_Manufacturer').value;
+    lsProductList[id].type = document.getElementById('Product_Type').value;
+    lsProductList[id].price = document.getElementById('Product_Price').value;
+    lsProductList[id].quantity = document.getElementById('Product_Quantity').value;
 
-        document.getElementById('btn_add').style.display = 'initial';
-        document.getElementById('btn_update').style.display = 'none';
-        document.getElementById('btn_reset').style.display = 'none';
-        document.getElementById('btn_cancel').style.display = 'initial';
-        document.getElementById('btn_find').style.display = 'initial';
+    localStorage.setItem("product_list", JSON.stringify(lsProductList));
+    displayItems();
+    cancelItem();
+}
 
-        displayItems();
-
-    });
-
-    document.getElementById("btn_reset").addEventListener('click', function () {
-        document.getElementById('Product_Name').value = '';
-        document.getElementById('Product_Manufacturer').value = '';
-        document.getElementById('Product_Type').value = '';
-        document.getElementById('Product_Price').value = '';
-        document.getElementById('Product_Quantity').value = '';
-    });
+function resetItem() {
+    document.getElementById('Product_Name').value = '';
+    document.getElementById('Product_Manufacturer').value = '';
+    document.getElementById('Product_Type').value = '';
+    document.getElementById('Product_Price').value = '';
+    document.getElementById('Product_Quantity').value = '';
 }
 
 function deleteItem(index) {
     let lsProductList = JSON.parse(localStorage.getItem("product_list"));
-    var conf = confirm('Are you sure you want to delete: "'+ lsProductList[index].name +'" with code: '+ lsProductList[index].code + " product?");
+    var conf = confirm('Are you sure you want to delete: "' + lsProductList[index].name + '" with code: ' + lsProductList[index].code + " product?");
     if (conf) {
         lsProductList.splice(index, 1);
         localStorage.setItem("product_list", JSON.stringify(lsProductList));

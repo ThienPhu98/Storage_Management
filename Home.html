@@ -48,6 +48,11 @@
         #Table-Product {
             background-color: white;
         }
+        .title{
+            background-color: rgb(224, 214, 119);
+            width: 15%;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -93,20 +98,20 @@
                 <button type="button" class="btn btn-outline-success" id="btn_add" style='display: initial'
                     onclick="addItem()">ADD</button>
                 <button type="button" class="btn btn-outline-success" id="btn_update"
-                    style='display: none'>UPDATE</button>
+                    style='display: none' onclick="updateItem(this.value)">UPDATE</button>
                 <button type="button" class="btn btn-outline-warning" id="btn_reset"
                     style='display: none'>CLEAR</button>
                 <button type="button" class="btn btn-outline-secondary" id="btn_cancel" style='display: initial'
                     onclick="cancelItem()">CANCEL</button>
                 <button type="button" class="btn btn-outline-primary" id="btn_find" style='display: initial'
-                    onclick="">FIND</button>
+                    onclick="location.href='Find_list.html'">FIND</button>
             </div>
-
+            
         </div>
     </div>
 
     <div class="Show-Product">
-        <h3>All Product</h3>
+        <h3 class="title">All Product</h3>
         <div id="Table-Product">
             <table id="Table_Product" class="table table-striped" cellspacing="0" width="100%">
                 <thead>
@@ -125,6 +130,7 @@
             </table>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="Home.js"></script>
 </body>
+
 </html>
